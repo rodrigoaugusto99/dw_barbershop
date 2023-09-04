@@ -15,18 +15,27 @@ class SplashPage extends ConsumerStatefulWidget {
 }
 
 class _SplashPageState extends ConsumerState<SplashPage> {
-  //duas variaveis de estado
+  //duas variaveis de estado para as animaçoes
   var _scale = 10.0;
   var _animationOpacityLogo = 0.0;
 
+/*getter inves de variaveis diretas, pois nao representam valores estaticos,
+ mas sim um valor que dependem de outras variaves, formulas ou logicas*/
   double get _logoAnimationWidth => 100 * _scale;
   double get _logoAnimationHeight => 120 * _scale;
 
   @override
   void initState() {
+    /*para agendar uma função que será executada após o primeiro quadro (frame) de renderização ter sido concluído.
+     garantir que as atualizações de estado ocorram após o primeiro quadro de renderização ter sido concluído. 
+     Isso é importante em casos em que você deseja realizar ações que dependem da interface do usuário ter sido 
+     completamente construída, como animações, ajustes de layout 
+     ou outras operações que afetam a aparência ou o comportamento do widget.*/
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
+        //animação começa com 0.0 e vai pra 1.0 (aparecendo)
         _animationOpacityLogo = 1.0;
+        //escala da imagem começa 100 e 120 vezes maior, e vai pra 1.0 (diminuindo)
         _scale = 1.0;
       });
     });
@@ -55,6 +64,8 @@ class _SplashPageState extends ConsumerState<SplashPage> {
         }
       });
     });
+
+    //1 ------------imagem de fundo--------------
     return Scaffold(
       backgroundColor: Colors.black,
       body: DecoratedBox(
@@ -67,10 +78,13 @@ class _SplashPageState extends ConsumerState<SplashPage> {
               fit: BoxFit.cover),
         ),
         child: Center(
+          //2 --------animando a opacidade da logo--------
           child: AnimatedOpacity(
             opacity: _animationOpacityLogo,
             curve: Curves.easeIn,
             duration: const Duration(seconds: 1),
+            //quando a animação terminar, fazer o redirect por aqui
+            //pushNamed fica feio. com esse PageRouteBulder, dá pra decorar a transicao de telas com fade.
             onEnd: () {
               Navigator.of(context).pushAndRemoveUntil(
                 PageRouteBuilder(
@@ -89,11 +103,14 @@ class _SplashPageState extends ConsumerState<SplashPage> {
                 (route) => false,
               );
             },
+            //2 ------------animando a logo--------------
+            //animatedContainer - qualquer alteraçao no container, ele vai animar por x segundos
             child: AnimatedContainer(
               width: _logoAnimationWidth,
               height: _logoAnimationHeight,
               duration: const Duration(seconds: 1),
               curve: Curves.linearToEaseOut,
+              //1 ------------imagem da logo--------------
               child: Image.asset(
                 ImageConstants.imageLogo,
                 fit: BoxFit.cover,

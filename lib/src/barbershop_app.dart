@@ -20,8 +20,11 @@ class BarbershopApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //para abrir o loader de
     return AsyncStateBuilder(
+      //chamando a pagina do loader do package
       customLoader: const BarbershopLoader(),
+      //observer para controlar o loader de qualquer lugarr do app
       builder: (asyncNavigatorObserver) {
         return MaterialApp(
           title: 'DW Barbershop',

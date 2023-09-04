@@ -7,6 +7,7 @@ class BarbershopLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //o loader do package
     return Center(
       child: LoadingAnimationWidget.threeArchedCircle(
           color: ColorsConstants.brown, size: 60),
