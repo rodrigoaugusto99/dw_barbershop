@@ -32,7 +32,7 @@ class LoginVM extends _$LoginVM {
       /*se a requisição retornar success, instanciamos um usuario e
       e com o provider do Me, atribuimos esse usuario à um adm ou employee*/
       case Success():
-        //invalidando os caches p evitare login c usuario errado
+        //invalidando os caches p evitar login c usuario errado
         ref.invalidate(getMeProvider);
         ref.invalidate(getMyBarbershopProvider);
         //buscar dados do usuario logado

@@ -14,6 +14,8 @@ abstract interface class BarbershopRepository {
         List<int> openingHours
       }) data);
 
+/*metodo para recuperar o barbershop, passando como
+parametro o usuario corrente */
   Future<Either<RepositoryException, BarbershopModel>> getMyBarbershop(
       UserModel userModel);
 }

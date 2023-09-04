@@ -49,14 +49,21 @@ Future<UserModel> getMe(GetMeRef ref) async {
   };
 }
 
+//assim como o User, também faremos o barbershoRep e getMyBarbershop.
+
 @Riverpod(keepAlive: true)
 BarbershopRepository barbershopRepository(BarbershopRepositoryRef ref) =>
     BarbershopRepositoryImpl(restClient: ref.watch(restClientProvider));
 
 @Riverpod(keepAlive: true)
 Future<BarbershopModel> getMyBarbershop(GetMyBarbershopRef ref) async {
+  //3- precisa do userModel corrente
+  /*tem que ser o .futuro pq o userModel retorna um AsyncValue, o metodo 
+  getMe é do tipo Future*/
   final userModel = await ref.watch(getMeProvider.future);
+  //1- pegar a ref do repositorio
   final barbershopRepository = ref.watch(barbershopRepositoryProvider);
+  //2- com o repositorio instanciado, vms usar o metodo getMyBarbershop de lá
   final result = await barbershopRepository.getMyBarbershop(userModel);
 
   return switch (result) {
