@@ -28,14 +28,35 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //final loginVM = ref.watch(loginVMProvider.notifier);
-    final LoginVM(:login) = ref.watch(loginVMProvider.notifier);
+    /*precisamos usar Consumer para ter acesso ao wiget ref
+    que é uma referencia pra gente buscar as coisas do riverpod. */
 
+//dessa forma, retorna o estado
+    //final loginVM = ref.watch(loginVMProvider);
+
+    //dentro do metodo build, pois vamos ouir as alteracoes desse ref.watch
+    //e desse forma, retorna o acesso à classe LoginVM, onde podemos usar os metodos
+    final LoginVM(:login) = ref.watch(loginVMProvider.notifier);
+    /*depois de fazer essa instancia do view model(VM) com o metodo login,
+    podemos analisar qual é o estado retornado pelo ref.watch(state do VM)
+    e fazer as ações necessárias
+    */
+
+    /*as alteraçoes do estados que são retornadas pelo vm,
+    descobertas na vm de acordo com retorno do Service, que depende
+    do retorno do repository...
+    serão todas ouvidas a todo instante,  */
+
+//olhando o loginVMProvider, que é o estado. queremos ficar olhando esse provider
+//esse metodo listen alem de precisar do estado, tbm precisa da varivel state
+//vamos analisar o que vai vir da variavel state.
     ref.listen(loginVMProvider, (_, state) {
       switch (state) {
         case LoginState(status: LoginStateStatus.initial):
           break;
         case LoginState(status: LoginStateStatus.error, :final errorMessage?):
+          //Messages, alem da mensagem do proprio validatorless em cada campo,
+          //tbm será exibido top snack bar do package.
           Messages.showError(errorMessage, context);
         case LoginState(status: LoginStateStatus.error):
           Messages.showError('Erro ao realizar login', context);
@@ -139,6 +160,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           ),
                           ElevatedButton(
                             onPressed: () {
+                              //ações com a validação
                               switch (formKey.currentState?.validate()) {
                                 case (false || null):
                                   //mandando msg pro usuario

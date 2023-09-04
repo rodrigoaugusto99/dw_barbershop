@@ -10,17 +10,27 @@ import 'login_state.dart';
 part 'login_vm.g.dart';
 
 @riverpod
+/*é um async Notifier do proprio riverpod */
+//extentando a classe que o build runner criou com o riverpod
 class LoginVM extends _$LoginVM {
   @override
+
+  //obrigatorio metodo buld = qual o tipo q vamos retornar
   LoginState build() => LoginState.initial();
 
   Future<void> login(String email, String password) async {
+    //loader do package q pode ser controlado manualmente
     final loaderHandler = AsyncLoaderHandler()..start();
+    /*depois de chamar o metodo login da VM,aqui temos que 
+    chamar o metodo execute do Service. Pra isso vamos aqui TAMBEM 
+    fzr uma instancia do provedor do UserLoginService*/
     final loginService = ref.watch(userLoginServiceProvider);
 
     final result = await loginService.execute(email, password);
-
+/*metodo execute retorna um either, entao temos que tratar os success e failure */
     switch (result) {
+      /*se a requisição retornar success, instanciamos um usuario e
+      e com o provider do Me, atribuimos esse usuario à um adm ou employee*/
       case Success():
         //invalidando os caches p evitare login c usuario errado
         ref.invalidate(getMeProvider);
@@ -30,6 +40,7 @@ class LoginVM extends _$LoginVM {
         final userModel = await ref.read(getMeProvider.future);
         switch (userModel) {
           case UserModelADM():
+            //alterando o estado de acordo com o usuario retornado
             state = state.copyWith(status: LoginStateStatus.admLogin);
           case UserModelEmployee():
             state = state.copyWith(status: LoginStateStatus.employeeLogin);
@@ -41,6 +52,7 @@ class LoginVM extends _$LoginVM {
           errorMessage: () => message,
         );
     }
+    //ao acabar a requisicao toda, fechar o loader
     loaderHandler.close();
   }
 }
