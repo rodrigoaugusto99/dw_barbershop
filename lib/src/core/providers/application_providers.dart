@@ -18,6 +18,12 @@ import '../../repositories/barbershop/barbershop_repository.dart';
 
 part 'application_providers.g.dart';
 
+/*providers(provedores globais, instancias de classe que vao ser usadas pela nossa aplicacao como um todo */
+
+/*metodo de nivel superior com RestClient que recebe no construtor um ref 
+que vai ser uma referencia do Riverpod - retornar a instancia de RestClient */
+
+//dart run build_runner watch -d
 @Riverpod(keepAlive: true)
 RestClient restClient(RestClientRef ref) => RestClient();
 

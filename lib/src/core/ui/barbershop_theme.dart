@@ -31,6 +31,7 @@ sealed class BarbershopTheme {
       border: _defaultInputBorder,
       enabledBorder: _defaultInputBorder,
       focusedBorder: _defaultInputBorder,
+      //copyWith - copia o _defaultInputBorder, mas com cor vermelha
       errorBorder: _defaultInputBorder.copyWith(
           borderSide: const BorderSide(color: ColorsConstants.red)),
     ),
