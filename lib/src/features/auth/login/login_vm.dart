@@ -37,6 +37,18 @@ class LoginVM extends _$LoginVM {
         ref.invalidate(getMyBarbershopProvider);
         //buscar dados do usuario logado
         //fazer uma analise para qual o tipo de login
+
+        /*como saber se quem logou é adm ou employee?
+        APENAS TENHO O TOKEN QUE VEIO DO SERVICE! 
+        então vamos usar o metodo "me" do json rest server
+        pois ele retorna todos os dados do usuario
+        -Para isso, vamos criar o UserModel, que é exatamente
+        o que o backend retorna em formato json.
+        -lá no json rest server, quando chega no '/me', o backend
+        retorna os dados do usuario.
+        -vamos no repositorio criar o metodo "me" que chama esse
+        "me" do restCLient, e se for success, vamos retornar o UserModel.
+        */
         final userModel = await ref.read(getMeProvider.future);
         switch (userModel) {
           case UserModelADM():

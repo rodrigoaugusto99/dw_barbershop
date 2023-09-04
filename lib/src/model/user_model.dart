@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+/*sealed class pois se for um adm que nao trabalha, weekDays e weekHours nao irao existir,
+entao pra evitar colocar o ? para possibilitar nulo, vamos usar a orientacao a objetos 
+com o sealedd class */
 sealed class UserModel {
   final int id;
   final String name;
@@ -13,6 +16,7 @@ sealed class UserModel {
     this.avatar,
   });
 
+//mapeando os usuarios pelo key 'profile' do banco
   factory UserModel.fromMap(Map<String, dynamic> json) {
     return switch (json['profile']) {
       'ADM' => UserModelADM.fromMap(json),
@@ -23,6 +27,7 @@ sealed class UserModel {
 }
 
 class UserModelADM extends UserModel {
+  //nulo pois o adm pode nao trabalhar
   final List<String>? workDays;
   final List<int>? workHours;
   UserModelADM({
@@ -34,12 +39,20 @@ class UserModelADM extends UserModel {
     super.avatar,
   });
 
+  /*cada UserModel precisa ter seu fromMap para converter os dados do json em objeto.
+  aqui, com o switch, podemos ao fazer a conversao, garantir os tipos que serão atribuidos às variaveis do objeto.
+  sendo assim, se algum tipo o json nao bater com o objeto, 
+  entra no case coringa, que é como se fosse um else, e retorna um Argument error. */
+
   factory UserModelADM.fromMap(Map<String, dynamic> json) {
     return switch (json) {
       {
         'id': final int id,
         'name': final String name,
         'email': final String email,
+        /*nao podemos colocar avatar, work days e workHours pq eles podem ser nulos,
+        entao se colocar aqui no pattern matching e forem nulos, pode dar erro.
+        então, tem que colocar direto lá na atribuição embaixo. */
       } =>
         UserModelADM(
           id: id,
@@ -49,12 +62,14 @@ class UserModelADM extends UserModel {
           workDays: json['work_days']?.cast<String>(),
           workHours: json['work_hours']?.cast<int>(),
         ),
+      //se nao atendeu ao pattern matching...
       _ => throw ArgumentError('Invalid json'),
     };
   }
 }
 
 class UserModelEmployee extends UserModel {
+  //obrigatorio pois um employee necessariamente tem workdays e workhours
   final int barbershopId;
   final List<String> workDays;
   final List<int> workHours;
@@ -74,6 +89,7 @@ class UserModelEmployee extends UserModel {
         'id': final int id,
         'name': final String name,
         'email': final String email,
+        //esses abaixo podem estar aqui diretos pois sao obrigatorios de virem.
         'barbershop_id': final int barbershopId,
         'work_days': final List workDays,
         'work_hours': final List workHours,

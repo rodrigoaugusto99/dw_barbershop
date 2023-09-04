@@ -36,6 +36,9 @@ UserRepository userRepository(UserRepositoryRef ref) =>
 UserLoginService userLoginService(UserLoginServiceRef ref) =>
     UserLoginServiceImpl(userRepository: ref.read(userRepositoryProvider));
 
+/*para criar o provider do 'me', para chamar em qlqr lugar, como no loginVM.
+Esse é mais complexo: vamos pegar o resultado do .me do userRepositoryProvider, 
+e isso vai nos trazer o UserModel ou uma excepion. */
 @Riverpod(keepAlive: true)
 Future<UserModel> getMe(GetMeRef ref) async {
   final result = await ref.watch(userRepositoryProvider).me();

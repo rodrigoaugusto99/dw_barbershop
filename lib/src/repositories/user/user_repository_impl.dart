@@ -54,10 +54,24 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
+/*depois de fazer o UserModel com as conversoes, podemos usar o metodo 'me' do
+json rest server para atribuir à um UserModel os dados retornados  */
   @override
   Future<Either<RepositoryException, UserModel>> me() async {
     try {
+      //na url me, pega os dados do usuario
       final Response(:data) = await restClient.auth.get('/me');
+      /*data é os dados em json, que serão atribuidos ao UserModel depois da conversao
+      depois da conversao, esse UserModel é atriuido ao userModel, que lá no VM,
+      foi lido o provider desse método(getMe)) que é o getMeProvider
+      (getMe é o nome do provider. então para instancia-lo lá no vm, 
+      usasse o getMeProvider)*/
+
+      /*repare que ele retorna um UserModel.
+      como entao há o retorno de UserModelADM ou employee?
+      -lá no model, na classe pai,vamos mapear os usuario pela key 'profile'.
+      há o fromMap que de acordo com o json['profile'], 
+      vai retornar um UserModdel ou outro. */
       return Success(UserModel.fromMap(data));
     } on DioException catch (e, s) {
       log('Erro ao buscar usuario logado', error: e, stackTrace: s);
