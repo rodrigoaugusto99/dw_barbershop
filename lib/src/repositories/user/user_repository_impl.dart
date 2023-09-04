@@ -26,12 +26,19 @@ class UserRepositoryImpl implements UserRepository {
   Future<Either<AuthException, String>> login(
       String email, String password) async {
     try {
+      //acesso à esse serviço
+      //restClient.unAuth(requisicao nao autorizada)
+
+      /*atribuir a requisicao ao data do Response, 
+      usando destructor(n precisa instanciar a classe toda, 
+      só pega o que improta(:data) */
       final Response(:data) = await restClient.unAuth.post('/auth', data: {
         'email': email,
         'password': password,
       });
-
+//quando mando certo os dados, recebo um acess_token( resposta numero 200)
       return Success(data['access_token']);
+      //se nao retornar 200, retorna uma DioException
     } on DioException catch (e, s) {
       if (e.response != null) {
         //e.response.statusCode;
@@ -41,6 +48,7 @@ class UserRepositoryImpl implements UserRepository {
           return Failure(AuthUnauthorizedException());
         }
       }
+      //se esse if nao for forbidden ou for nulo, entra como authException
       log('Erro ao realizar login', error: e, stackTrace: s);
       return Failure(AuthError(message: 'erro ao realiar login'));
     }

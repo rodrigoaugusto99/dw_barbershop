@@ -9,6 +9,9 @@ import 'package:dw_barbershop/src/services/user_login/user_login_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //regra de negocio
+/*o vm nao vai chamar direto o repositorio, que é dretamente ligada ao backend.
+primeiro,vai chamar o service, que esse ai sim chama o repositorio para poder
+tratar os retornos.*/
 
 class UserLoginServiceImpl implements UserLoginService {
   final UserRepository userRepository;
@@ -20,9 +23,21 @@ class UserLoginServiceImpl implements UserLoginService {
   Future<Either<ServiceException, Nil>> execute(
       String email, String password) async {
     final loginResult = await userRepository.login(email, password);
+    /*-criamos uma variavel loginResult e chamamos o UserRepository.login, passando os dados
+-nao sobe excecao, entao nao precisa de try-catdch, pois já está la no repositorio.
+-como o eithe é uma classe selada, usando o switch, 
+a gente pode fazer as checagens exaustivamente, temos 
+que checar todas as possibilidades(Failure e Success)
+
+-usar esse switch case ajuda pois ele informa quando está faltando um caso.
+
+-dessa forma, temos uma seguranca de que tudo que deveria ser validado, será validado. */
 
     switch (loginResult) {
       case Success(value: final accessToken):
+        /*no caso de sucesso, recuperamos o token e guarda0lo dentro do local storage, 
+      pois mais pra frente, iremos criar um interceptor e adicionar esse 
+      token automaticamente nas nossas requisicoes autenticadas. */
         final sp = await SharedPreferences.getInstance();
         sp.setString(LocalStorageKeys.accessToken, accessToken);
         return Success(nil);

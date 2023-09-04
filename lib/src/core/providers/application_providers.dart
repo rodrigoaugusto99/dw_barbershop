@@ -28,6 +28,7 @@ que vai ser uma referencia do Riverpod - retornar a instancia de RestClient */
 RestClient restClient(RestClientRef ref) => RestClient();
 
 @Riverpod(keepAlive: true)
+/*repositorio do usuario, da barbearia e de agendamentos, precisarão usar o restClientProvider. */
 UserRepository userRepository(UserRepositoryRef ref) =>
     UserRepositoryImpl(restClient: ref.read(restClientProvider));
 
