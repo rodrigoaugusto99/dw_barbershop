@@ -66,8 +66,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             padding: const EdgeInsets.all(30.0),
             child: CustomScrollView(
               slivers: [
+                //o cara que ocupa a tela como um todo
                 SliverFillRemaining(
+                  //nao tem body, pra ele poder esticar a tela
+                  //customScroll + sliver é ajuda mt
                   hasScrollBody: false,
+                  //os filhos flutuam na tela, entao podemos mexe-los com align
                   child: Stack(
                     //alinhar todo o resto no centro
                     alignment: Alignment.center,
@@ -91,6 +95,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 label: Text('Email'),
                                 hintText: 'E-mail',
                                 hintStyle: TextStyle(color: Colors.black),
+                                /*para tirar o label ao focar no textfield, pois quando foca, 
+                                ele saí ali de cima do hintText e fica um pouco mais em cima */
                                 floatingLabelBehavior:
                                     FloatingLabelBehavior.never,
                                 labelStyle: TextStyle(color: Colors.black)),
@@ -144,6 +150,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
+                              //height = 56, width = double.infinity
                               minimumSize: const Size.fromHeight(56),
                               //minimumSize = Size(double.infinity, 56)(mesma coisa)
                             ),

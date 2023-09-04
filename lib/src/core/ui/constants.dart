@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/*Como nosso app terá uma paleta de cores especifica, entao vamos defini-las logo
+ num outro arquivo, seguindo a mesma ideia desse arquivo de Theme, porem dessa vez é para Constants. */
 sealed class ColorsConstants {
   static const brown = Color(0xFFB07B01);
   static const grey = Color(0xFF999999);

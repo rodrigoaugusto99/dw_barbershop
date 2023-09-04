@@ -2,6 +2,9 @@
 import 'package:dw_barbershop/src/core/ui/constants.dart';
 import 'package:flutter/material.dart';
 
+/*coisas como cor de texto, terão sempre que ser brancos. entao criar esse arquivo para já estlizar todo o tema do app
+depois, jogar a classe la no theme do MaterialApp */
+
 sealed class BarbershopTheme {
   static const _defaultInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.all(
