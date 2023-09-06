@@ -18,6 +18,9 @@ abstract interface class UserRepository {
 
   Future<Either<RepositoryException, UserModel>> me();
 
+/* recebe um tipo record - record nomeados
+-vamos nomear os parametros que vamos retornar aqui
+-e vamos chamar de userData*/
   Future<Either<RepositoryException, Nil>> registerAdmin(
     ({String name, String email, String password}) userData,
   );

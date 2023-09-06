@@ -90,15 +90,25 @@ json rest server para atribuir à um UserModel os dados retornados  */
   Future<Either<RepositoryException, Nil>> registerAdmin(
       ({String email, String name, String password}) userData) async {
     try {
+      /*unAuth pois registrar um admin é "nao autenticado". 
+      permite que seja nao autenticado
+      
+      INSERT no /users.
+      é um post, entao temos que mandar parametros pra nossa requisição
+      */
       await restClient.unAuth.post('/users', data: {
+        //como acessa  o record? demos um nome p ele - userData
+        //parece que ta recebendo como se fosse uma classe, mt bom
         'name': userData.name,
         'email': userData.email,
         'password': userData.password,
+        //metodo que registrar adm, então: posso mandar fixo hard coded
         'profile': 'ADM'
       });
+      //só registrei, nao quero resposta
       return Success(nil);
     } on DioException catch (e, s) {
-      log('Erro ao registrar usuario', error: e, stackTrace: s);
+      log('Erro ao registrar admin', error: e, stackTrace: s);
       return Failure(
         RepositoryException(message: 'Erro ao registrar admin'),
       );

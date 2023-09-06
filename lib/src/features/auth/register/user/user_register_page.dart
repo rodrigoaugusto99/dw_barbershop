@@ -29,8 +29,11 @@ class _UserRegisterPageState extends ConsumerState<UserRegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    //instnacia do notifier
     final userRegisterVM = ref.watch(userRegisterVmProvider.notifier);
 
+//escutando as alterações dessa tela
+//next = state
     ref.listen(userRegisterVmProvider, (_, state) {
       switch (state) {
         case UserRegisterStateStatus.initial:

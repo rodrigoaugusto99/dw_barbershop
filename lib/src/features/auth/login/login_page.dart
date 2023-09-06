@@ -182,6 +182,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,
+                        /*rota para a tela de registrar user 
+                        
+                        inkwell pq é um widget que trás o poder do click
+                        sem nenhuma formatação, nao muda nada no texto,
+                        e o front ja ta pronto. se colocar tipo textbutton, 
+                        ja vai vir uns padding padrao doido*/
                         child: InkWell(
                           onTap: () {
                             Navigator.of(context)
