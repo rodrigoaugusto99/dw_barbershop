@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class HoursPanel extends StatefulWidget {
   final List<int>? enableHours;
+  //start e end time pra definir as horas que estarão disponiveis para marcar
   final int startTime;
   final int endTime;
   final ValueChanged<int> onHourPressed;
@@ -41,11 +42,14 @@ class _HoursPanelState extends State<HoursPanel> {
         const SizedBox(
           height: 16,
         ),
+        //row com quebra de linha
         Wrap(
           spacing: 8,
           runSpacing: 16,
           children: [
+            //Loop para a construçao dos TimeButtons de acordo com start e endtime
             for (int i = widget.startTime; i <= widget.endTime; i++)
+
               //i < 9 ? TimeButton(label: '0$i:00') : TimeButton(label: '$i:00')
               TimeButton(
                 timeSelected: lastSelecion,

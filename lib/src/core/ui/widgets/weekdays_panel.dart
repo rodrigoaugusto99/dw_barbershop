@@ -27,6 +27,7 @@ class WeekdaysPanel extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
+          //rolagem caso dispositivo pequeno
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
