@@ -45,6 +45,9 @@ class _SplashPageState extends ConsumerState<SplashPage> {
   @override
   Widget build(BuildContext context) {
     ref.listen(splashVmProvider, (_, state) {
+      //o metodo build é assincrono(Future), então tem essas funcoes when
+      /*escutar as alteracoes do estao, se der error - mensagens + loginPage
+      se der success(data) - redirects */
       state.whenOrNull(error: (error, stackTrace) {
         log('Erro ao validar login', error: error, stackTrace: stackTrace);
         Messages.showError('Erro ao validar o login', context);

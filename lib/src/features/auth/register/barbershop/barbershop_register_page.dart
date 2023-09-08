@@ -9,6 +9,10 @@ import '../../../../core/ui/helpers/messages.dart';
 import '../../../../core/ui/widgets/hours_panel.dart';
 import 'barbershop_register_vm.dart';
 
+//4 - registrar na vm, buscando o repository
+
+/*2 - pra tela acessar o container, os widgets do riverpod para
+ter acesso à referencia do provier, precisamos usar COnsumer */
 class BarbershopRegisterPage extends ConsumerStatefulWidget {
   const BarbershopRegisterPage({super.key});
 
@@ -32,9 +36,13 @@ class _BarbershopRegisterPageState
 
   @override
   Widget build(BuildContext context) {
+    //1 - pegando a instancia do vm. (sem notifier é instancia do estado)
     final barbershopRegisterVM =
         ref.watch(barbershopRegisterVmProvider.notifier);
 
+//5 - escuta o vmProvvider(sem notifier, agora queremos o estado)
+//(_, state) - importa só o estao atual, nao o anterior
+//
     ref.listen(barbershopRegisterVmProvider, (_, state) {
       switch (state.status) {
         case BarbershopRegisterStateStatus.initial:
@@ -88,8 +96,14 @@ class _BarbershopRegisterPageState
                 const SizedBox(
                   height: 24,
                 ),
+                /*Chama o Weekdays passando o onDayPressed que recebeu a variavel
+                clicada (label) 
+                - a partir dai, pode fazer o que quiser com essa variavel recebida.
+                -depois eu me viro para adicionar OU NAO na minha lista*/
                 WeekdaysPanel(
                   onDayPressed: (value) {
+                    /*3 - adicionando ou removendo os valores que vieram do 
+                    valueChanged(label)*/
                     barbershopRegisterVM.addOrRemoveOpenDay(value);
                   },
                 ),
@@ -99,6 +113,7 @@ class _BarbershopRegisterPageState
                 HoursPanel(
                   startTime: 6,
                   endTime: 23,
+                  /*3 - ADICIONANDO E REMOVENDO DO ESTADO OS ELEMENTOS */
                   onHourPressed: (int value) {
                     barbershopRegisterVM.addOrRemoveOpenHour(value);
                   },
@@ -106,6 +121,8 @@ class _BarbershopRegisterPageState
                 const SizedBox(
                   height: 24,
                 ),
+                //agr pra mandar pro vm, precisa fazer a construçao
+                //p receber os dados(controllers, formulario)
                 ElevatedButton(
                   onPressed: () {
                     switch (formKey.currentState?.validate()) {

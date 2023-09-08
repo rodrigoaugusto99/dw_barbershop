@@ -5,6 +5,7 @@ import 'package:dw_barbershop/src/core/ui/constants.dart';
 
 class WeekdaysPanel extends StatelessWidget {
   final List<String>? enableDays;
+  //2.1 - precisamos receber aqui pois é parametro do ButtonDay(que é chamado aqui)
   final ValueChanged<String> onDayPressed;
 
   const WeekdaysPanel({
@@ -35,6 +36,7 @@ class WeekdaysPanel extends StatelessWidget {
               children: [
                 ButtonDay(
                   label: 'Seg',
+                  //2.1
                   onDayPressed: onDayPressed,
                   enableDays: enableDays,
                 ),
@@ -77,9 +79,12 @@ class WeekdaysPanel extends StatelessWidget {
   }
 }
 
+//stateful pois teremos que atualizar o botao selecionado
+//pois teremos que guardar estado dentro dele
 class ButtonDay extends StatefulWidget {
   final List<String>? enableDays;
   final String label;
+  //2 - método callback, vai ser chamado quando eu selecionar
   final ValueChanged<String> onDayPressed;
 
   const ButtonDay({
@@ -94,9 +99,11 @@ class ButtonDay extends StatefulWidget {
 }
 
 class _ButtonDayState extends State<ButtonDay> {
+  //1 - variavel de estado
   var selected = false;
   @override
   Widget build(BuildContext context) {
+    //1 - variaveis esteticas que mudam com o clique
     final textColor = selected ? Colors.white : ColorsConstants.grey;
     var buttonColor = selected ? ColorsConstants.brown : Colors.white;
     final buttonBorderColor =
@@ -117,8 +124,12 @@ class _ButtonDayState extends State<ButtonDay> {
         onTap: disableDay
             ? null
             : () {
+                //no onTap do botao que inverte o estado dele
                 setState(() {
+                  //2 - chamar a função callback quando clicar
+                  //2- passando o label(widget.label)
                   widget.onDayPressed(label);
+                  //1- toggle
                   selected = !selected;
                 });
               },
@@ -127,13 +138,16 @@ class _ButtonDayState extends State<ButtonDay> {
           height: 56,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
+            //1- variavel estetica
             color: buttonColor,
+            //1 - variavel estetica
             border: Border.all(color: buttonBorderColor),
           ),
           child: Center(
             child: Text(
               widget.label,
               style: TextStyle(
+                //1- variavel estetica
                 color: textColor,
                 fontWeight: FontWeight.w500,
               ),

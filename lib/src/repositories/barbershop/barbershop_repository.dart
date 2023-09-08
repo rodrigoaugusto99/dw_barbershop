@@ -6,7 +6,10 @@ import '../../core/fp/either.dart';
 import '../../core/fp/nil.dart';
 
 abstract interface class BarbershopRepository {
+  //Nil porque no success só queremos registrar e mais nada.
   Future<Either<RepositoryException, Nil>> save(
+      /*ao salvar, mandar nome e email 
+    e datas e horarios isponieis */
       ({
         String name,
         String email,

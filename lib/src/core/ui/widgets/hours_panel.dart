@@ -49,7 +49,6 @@ class _HoursPanelState extends State<HoursPanel> {
           children: [
             //Loop para a construçao dos TimeButtons de acordo com start e endtime
             for (int i = widget.startTime; i <= widget.endTime; i++)
-
               //i < 9 ? TimeButton(label: '0$i:00') : TimeButton(label: '$i:00')
               TimeButton(
                 timeSelected: lastSelecion,

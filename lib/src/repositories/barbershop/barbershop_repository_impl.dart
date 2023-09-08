@@ -70,6 +70,7 @@ class BarbershopRepositoryImpl implements BarbershopRepository {
         List<int> openingHours,
       }) data) async {
     try {
+      //implementando - insert dos dados (post) no /barbershop com o id do adm criador
       await restClient.auth.post('/barbershop', data: {
         'user_id': '#userAuthRef',
         'name': data.name,
