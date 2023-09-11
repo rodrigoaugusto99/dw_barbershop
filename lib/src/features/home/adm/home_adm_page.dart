@@ -17,6 +17,7 @@ class HomeAdmPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    //buscando o estado logo de cara
     final homeState = ref.watch(homeAdmVmProvider);
     return Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -36,9 +37,11 @@ class HomeAdmPage extends ConsumerWidget {
             ),
           ),
         ),
+        //no body, chamar o homeState.when
         body: homeState.when(data: (HomeAdmState data) {
           return CustomScrollView(
             slivers: [
+              //paras colocar widgets nao rolaveis.
               const SliverToBoxAdapter(
                 child: HomeHeader(),
               ),

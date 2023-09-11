@@ -119,15 +119,28 @@ json rest server para atribuir à um UserModel os dados retornados  */
   Future<Either<RepositoryException, List<UserModel>>> getEmployees(
       int barbershopId) async {
     try {
+      /*busca inicial - 
+      fazer a requisicao que recebe uma list(data),  
+      pegar /users na query string 'barbershopId' com o 
+      valor que veio da variavel*/
       final Response(:List data) = await restClient.auth
           .get('/users', queryParameters: {'barbershop_id': barbershopId});
 
+      /* fazer a busca. no map tratar o UserModelEmployee.
+      Nao quero que converta um adm, quero que converta apenas os colaboradores.
+      retorna um UserModel mas podemos retornar um UserModelEmployee 
+      pois é um UserModel*/
       final employees = data.map((e) => UserModelEmployee.fromMap(e)).toList();
+      //caminho feliz, só retornar os employees
       return Success(employees);
+      //ou é erro de REQUISIÇÃO
     } on DioException catch (e, s) {
       log('Errp ao buscar colaboradores', error: e, stackTrace: s);
       return Failure(
           RepositoryException(message: 'Erro ao buscar colaboradores'));
+      //ou é erro de CONVERSÃO
+      /*pois os nossos métodos fromMap VALIDAM nossos json.
+          então se tiver invalido, lá vai retorar um ArgumentError*/
     } on ArgumentError catch (e, s) {
       log('Errp ao converter colaboradores(Invalid Json)',
           error: e, stackTrace: s);

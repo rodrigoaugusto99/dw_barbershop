@@ -30,7 +30,7 @@ class EmployeePage extends ConsumerWidget {
             slivers: [
               const SliverToBoxAdapter(
                 child: HomeHeader(
-                  showFilter: false,
+                  hideFilter: true,
                 ),
               ),
               SliverFillRemaining(

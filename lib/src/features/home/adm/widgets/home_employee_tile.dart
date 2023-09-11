@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../model/user_model.dart';
 
 class HomeEmployeeTile extends StatelessWidget {
+  //employee tile tem que receber o employee p colocar os dados
   final UserModel employee;
   const HomeEmployeeTile({super.key, required this.employee});
 

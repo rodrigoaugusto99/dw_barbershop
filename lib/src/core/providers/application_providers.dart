@@ -72,14 +72,22 @@ Future<BarbershopModel> getMyBarbershop(GetMyBarbershopRef ref) async {
   };
 }
 
+/*nao precisa de keepAlive pq vai fazer uma acao de ponta a ponta 
+e depois pode ser eliminado ou nao, o riverpod pode decidir*/
 @riverpod
 Future<void> logout(LogoutRef ref) async {
+  //instancia de sharedPreferences
   final sp = await SharedPreferences.getInstance();
+  //para poder eliminar todo o sharedPreferences
   sp.clear();
 
+//invalida os caches
   ref.invalidate(getMeProvider);
   ref.invalidate(getMyBarbershopProvider);
 
+/*navega pra tela de navegação. Como nao temos contexto, iremos usar a key global
+-pushNamedandRemoveUntil pq nao importa aonde esteja, vamos "matar a tela atual"
+e ir pra homePage*/
   Navigator.of(BarbershopNavGlobalKey.instance.navKey.currentContext!)
       .pushNamedAndRemoveUntil('/auth/login', (route) => false);
 }

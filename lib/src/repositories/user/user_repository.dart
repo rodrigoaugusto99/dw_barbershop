@@ -25,6 +25,8 @@ abstract interface class UserRepository {
     ({String name, String email, String password}) userData,
   );
 
+//fazer o contrato que retorna a lista de employees.
+//para a busca, informar o barbershopId
   Future<Either<RepositoryException, List<UserModel>>> getEmployees(
       int barbershopId);
 

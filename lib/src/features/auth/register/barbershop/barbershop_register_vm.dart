@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'barbershop_register_vm.g.dart';
 
+//@riverpod para podermos instanciar os providers do riverpod aqui
 @riverpod
 class BarbershopRegisterVm extends _$BarbershopRegisterVm {
   //inicialmente a tela só carrega sem fazer nada
@@ -61,6 +62,9 @@ para mandar pro save*/
       //atualizando o estado
       case Success():
         ref.invalidate(getMyBarbershopProvider);
+        /*tem que usar copywith pois é uma classe separada que tem outro atributo que nao ira mudar
+        diferentemente de user_register_vm, que nao precisa do copywith pois o estado
+        está no proprio vm(pois apenas serve de enum, nao guarda dados)*/
         state = state.copyWith(status: BarbershopRegisterStateStatus.success);
         break;
       case Failure():
